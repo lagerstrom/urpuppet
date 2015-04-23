@@ -1,0 +1,23 @@
+classes:
+  - ubuntu
+  - ubuntu::users
+  - docker
+  - emacs
+
+ubuntu::common_packages:
+  - 'strace'
+  - 'nmap'
+  - 'iftop'
+  - 'silversearcher-ag'
+  - 'htop'
+  - 'unzip'
+  - 'apt-file'
+  - 'puppet-lint'
+  - 'apcalc'
+  - 'tig'
+
+docker::docker_users:
+  - 'user'
+
+users::local_users:
+  - 'user'

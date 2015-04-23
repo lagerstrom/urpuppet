@@ -1,0 +1,11 @@
+---
+:backends:
+  - yaml
+:hierarchy:
+  - 'fqdn/%{fqdn}'
+  - 'hostname/%{hostname}'
+  - 'operatingsystem/%{operatingsystem}/role/%{role}'
+  - 'operatingsystem/%{operatingsystem}/common'
+:yaml:
+  :datadir: <%HIERA_DATADIR_DONT_CHANGE%>
+:merge_behavior: :deeper

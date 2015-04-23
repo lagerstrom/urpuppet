@@ -1,0 +1,20 @@
+classes:
+  - ubuntu::desktop
+  - awesome
+
+ubuntu::desktop::packages:
+  - 'xscreensaver'
+  - 'xscreensaver-data'
+  - 'xscreensaver-gl'
+  - 'xscreensaver-gl-extra'
+  - 'gnome-terminal'
+  - 'gnome-control-center'
+  - 'pulseaudio'
+  - 'alsa-base'
+  - 'alsa-utils'
+  - 'lightdm'
+  - 'vlc'
+  - 'google-chrome-stable'
+  - 'spotify-client'
+  - 'tor-browser'
+  - 'skype'
