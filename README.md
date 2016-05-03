@@ -21,6 +21,8 @@ Usage:
     cd urpuppet
     ./urpuppet
 
+Because this is the first time running Urpuppet it will ask you if this is a server or desktop installation. Just press D or S for Desktop or Server. Urpuppet will store your choise and use that in the future.
+
 Urpuppet to infinity and beyond
 ------------
 After you have done the installation everything is setup and finished to start using. From here you can check back to this repository and pull down the latest changes and run Urpuppet again to apply the latest fixes. You can also start to modify the files to suite your needs even better. Below I will give you a quick start to add your own user to you system.
@@ -59,7 +61,7 @@ Directory structure
 Contribute
 -------------
 
-If you think you have an idea of getting Urpuppet to be even better. Please tell me or send a pull request. That will help making the Urpuppet project better over time.
+If you think you have an idea of getting Urpuppet to be even better. Please tell me or send a pull request. That will help making the Urpuppet project better over time. For example most of the modules work with more operating systems that Ubuntu. It has not been tested or verified yet. Therefore I have a if statement in the urpuppet script to see if it's a Ubuntu installation or not. Would be really cool to have more operating systems supported.
 
 
 References
