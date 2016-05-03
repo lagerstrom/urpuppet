@@ -11,6 +11,7 @@ RED_TEXT="\e[31m"
 GREEN_TEXT="\e[92m"
 RESET_TEXT="\e[0m"
 
+
 # Check if user is root
 if [ "$(id -u)" != "0" ]; then
    echo "This script must be run as root" 1>&2
@@ -23,10 +24,21 @@ if [ "$DIST" != "Ubuntu" ]; then
     echo -n -e "$RED_TEXT"
     echo "Unsupported dist. Exiting"
     echo -n -e "$RESET_TEXT"
+    exit 1
 fi
 
-# Setup trap the cd back to current dir when exit
-trap "cd $CUR_PWD" SIGHUP SIGINT SIGTERM EXIT
+# Sets up temp hiera config file
+HIERA_CONFIG=$(tempfile -p hiera -s .yaml)
+
+function clean_up {
+    # cd back to the directory this was execute from on exit
+    cd "$CUR_PWD"
+    # Removes the temporary hiera config file
+    rm "$HIERA_CONFIG"
+}
+
+# Clean up commands to run on exit
+trap clean_up SIGHUP SIGINT SIGTERM EXIT
 
 cd $PUPPET_DIR
 
@@ -91,13 +103,7 @@ if [ ! -f $ROLE_FILE ]; then
     echo -e -n "$RESET_TEXT"
 fi
 
-
-# Sets up temp hiera config file
-HIERA_CONFIG=$(tempfile -p hiera -s .yaml)
-trap "rm $HIERA_CONFIG" SIGHUP SIGINT SIGTERM EXIT
 cat "$PUPPET_HIERA/hiera.yaml" | sed "s|<%HIERA_DATADIR_DONT_CHANGE%>|$PUPPET_HIERA|" > $HIERA_CONFIG
 
-
 # Runs puppet
-#git pull
 puppet apply --modulepath "$PUPPET_MODULES" --hiera_config="$HIERA_CONFIG" "$PUPPET_MANIFESTS" --parser future $@
