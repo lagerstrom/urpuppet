@@ -1,9 +1,10 @@
 Urpuppet
 =======
 
-Urpuppet is your puppet[1]. It's puppet in a masterless setup.
+Urpuppet is your puppet[1]. It is puppet in a masterless setup.
 You only need to clone this repository or get a copy of it
-to start using puppet. It also has hiera[2] support.
+to start using puppet, it has never been easier to start using puppet.
+It also has hiera[2] support.
 
 Documentation
 -------------
