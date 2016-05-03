@@ -1,0 +1,98 @@
+source .antigen/antigen.zsh
+
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle git
+#antigen bundle heroku
+#antigen bundle pip
+#antigen bundle lein
+#antigen bundle command-not-found
+
+# Syntax highlighting bundle.
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+# Load the theme.
+antigen theme lukerandall
+
+# Tell antigen that you're done.
+antigen apply
+
+# Do not get the select box for autocompletion
+setopt noautomenu
+
+# Makes ctrl+w delete everything until next white space
+autoload -U backward-kill-word-match
+zle -N backward-kill-word-space backward-kill-word-match
+zstyle ':zle:backward-kill-word-space' word-style space
+bindkey '^W' backward-kill-word-space
+
+# So I can get tab completion with ..
+# E.g cd ..<tab>
+zstyle ':completion:*' special-dirs true
+
+# My own costume aliases
+#alias ls='/bin/exa'
+alias ls='ls --color=auto'
+alias nf='find . -mmin -5'
+alias cp='cp -v'
+alias mv='mv -v'
+alias psgrep='ps aux | grep -i'
+alias a='alias'
+alias uu='sudo apt-get update && sudo apt-get upgrade'
+alias lsg='/bin/ls | grep -i'
+alias diff='colordiff'
+# simple webserver
+alias http="python3 -mhttp.server"
+# json prettify
+alias json="python3 -mjson.tool"
+# Locks the screen
+alias lock='xscreensaver-command -lock'
+alias gw='ip -4 route list 0/0'
+
+# Git aliases
+alias gc='git checkout'
+alias gc='git commit'
+alias gs='git status'
+alias gp='git push'
+alias gpl='git pull'
+alias gd='git diff'
+alias ga='git add'
+alias gl='git log'
+
+# Docker aliases
+alias de='docker exec -it'
+alias dr='docker run'
+alias dp='docker ps'
+alias db='docker-compose build'
+alias dk='docker-compose kill'
+alias dcp='docker-compose up'
+alias ds='docker stats'
+
+# Docker functions
+#
+dsa() {
+    /usr/bin/docker stats $(docker ps | awk '{print $NF}' | tail -n +2 | tr '\n' ' ')
+}
+
+# Get fg to behave like is does in bash
+#
+fg() {
+    if [[ $# -eq 1 && $1 = - ]]; then
+	builtin fg %-
+    else
+	builtin fg %"$@"
+    fi
+}
+
+# Changing default editor from vim to emacs
+export EDITOR='emacs'
+
+# Forces application to use en_US.UTF-8 as output
+# Fix problem with ÅÄÖ being showned as ??
+export LC_ALL=en_US.UTF-8
+
+
+# Adds GOPATH for my go project
+export GOPATH="$HOME/repos/urisen/"

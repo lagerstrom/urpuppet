@@ -1,34 +1,47 @@
-class docker (
-  $docker_users = [],
-  ){
+class docker (){
 
   group { 'docker':
     ensure => 'present',
   }
 
+  package { 'apt-transport-https' :
+    ensure => 'installed',
+  }
+
+  apt::key { 'docker-key':
+    id     => '36A1D7869245C8950F966E92D8576A8BA88D21E9',
+    server => 'hkp://keyserver.ubuntu.com:80',
+  }
+
   apt::source { 'docker':
     location          => 'https://get.docker.com/ubuntu',
     repos             => 'main',
-    key               => '36A1D7869245C8950F966E92D8576A8BA88D21E9',
-    key_server        => 'hkp://keyserver.ubuntu.com:80',
     release           => 'docker',
-    required_packages => 'apt-transport-https',
-    include_src       => false
+    require           => [ Apt::Key['docker-key'], Package['apt-transport-https'] ],
+    include           => {
+      'src' => false,
+      'deb' => true,
+    },
   }
 
-  file { 'docker-compose':
-    path   => '/usr/local/bin/docker-compose',
-    source => 'puppet:///modules/docker/docker-compose',
-    mode   => 0755,
-    owner  => 'root',
+  exec { 'docker-update':
+    command     => '/usr/bin/apt-get update',
+    refreshonly => true,
+    subscribe   => [ Apt::Key['docker-key'], Apt::Source['docker'] ]
   }
 
-  User<|title == $docker_users |> {
-    groups +> 'docker',
-    require => Group['docker'],
-  } ->
+  exec { 'install_docker-compose':
+    command => "/usr/bin/curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-${kernel}-${hardwaremodel} -o /usr/local/bin/docker-compose",
+    creates => '/usr/local/bin/docker-compose'
+    }->
+    file { 'docker-compose':
+      path   => '/usr/local/bin/docker-compose',
+      mode   => '0755',
+      owner  => 'root',
+    }
+
   package { 'lxc-docker':
-    ensure => '1.6.0',
+    ensure => 'latest',
     require => Apt::Source['docker'],
   }
 }

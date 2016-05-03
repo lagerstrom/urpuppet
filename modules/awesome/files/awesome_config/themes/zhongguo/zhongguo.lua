@@ -12,7 +12,7 @@ theme.themedir       = awful.util.getdir("config")
 theme.themedir      = theme.themedir .. "/themes/zhongguo"
 -- }}}
 
-theme.wallpaper_cmd = { "awsetbg /home/alla/Pictures/pokemon-weedle-simple-background-283596-1280x1024.png" }
+theme.wallpaper_cmd = { "" }
 
 
 
@@ -29,7 +29,7 @@ theme.bg_urgent = theme.bg_normal
 -- }}}
 
 -- {{{ Borders
-theme.border_width  = 1
+theme.border_width  = 2
 theme.border_focus  = "#8E2323"
 theme.border_normal = "#333333"
 

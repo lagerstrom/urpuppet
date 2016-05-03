@@ -1,3 +1,7 @@
-class ubuntu::server {
-  notify {'This is the ubuntu::server class':}
+class ubuntu::server (
+  $packages = [],
+  ){
+  package { $packages:
+    ensure  => "installed",
+  }
 }

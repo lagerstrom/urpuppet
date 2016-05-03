@@ -1,73 +1,81 @@
 class awesome {
 
-  $awesome_packages = [ 'awesome', 'awesome-extra' ]
+  $awesome_packages = [ 'awesome', 'awesome-extra', 'xbacklight' ]
 
   package { $awesome_packages:
     ensure => installed,
   }
 
-  define copy_config {
-    $home_dir = hiera('users::home_dir', '/home')
-    $user = $name
+  # This define is copied from accounts::user.
+  # I will only use the hiera data for accounts
+  # when doing user stuff.
+  define setup_awesome (
+    $uid = undef,
+    $gid = $uid,
+    $primary_group = "${title}",
+    $comment = "${title}",
+    $username = "${title}",
+    $groups = [],
+    $ssh_key = '',
+    $ssh_keys = {},
+    $purge_ssh_keys = false,
+    $shell ='/bin/bash',
+    $pwhash = '',
+    $managehome = true,
+    $manage_group = true,
+    $home = '/home', # This line was changed from undef to '/home'
+    $home_permissions = '0755',
+    $ensure = present,
+    $recurse_permissions = false,
+  )
+  {
 
-    file { "$home_dir/$user/.config":
+    # Ensure that the config dir exists
+    # where we will then put the config file
+    file { "$home/$username/.config":
       ensure => directory,
     }
 
-    file { "$home_dir/$user/.config/awesome":
-      path         => "$home_dir/$user/.config/awesome",
+    # Copy the config file to correct place
+    file { "$home/$username/.config/awesome":
+      path         => "$home/$username/.config/awesome",
       ensure       => directory,
       source       => 'puppet:///modules/awesome/awesome_config',
       recurse      => true,
-      require      => File["$home_dir/$user/.config"],
-      owner        => $user,
-      group        => $user,
+      require      => File["$home/$username/.config"],
+      owner        => $username,
+      group        => $username,
     }
 
-  }
-
-
-  define remove_menu_bar {
-    $home_dir = hiera('users::home_dir', '/home')
-    $user = $name
-
-    # Create $home_dir/$user/.gconf/apps/gnome-terminal/profiles/Default recursivly
+    # Create $home/$username/.gconf/apps/gnome-terminal/profiles/Default recursivly
     $directories = [
-                    "$home_dir/$user/.gconf",
-                    "$home_dir/$user/.gconf/apps",
-                    "$home_dir/$user/.gconf/apps/gnome-terminal",
-                    "$home_dir/$user/.gconf/apps/gnome-terminal/profiles",
-                    "$home_dir/$user/.gconf/apps/gnome-terminal/profiles/Default",
-                    "/tmp/$user"
+                    "$home/$username/.gconf",
+                    "$home/$username/.gconf/apps",
+                    "$home/$username/.gconf/apps/gnome-terminal",
+                    "$home/$username/.gconf/apps/gnome-terminal/profiles",
+                    "$home/$username/.gconf/apps/gnome-terminal/profiles/Default",
                    ]
     file { $directories :
       ensure => "directory",
-      owner => $user,
-      group => $user,
-      mode  => 0600
+      owner => $username,
+      group => $username,
+      mode  => '0600'
 
     }
-
 
     # Copy the config file to remove the menu bar.
     file { 'gnome-terminal-config':
-      path => "$home_dir/$user/.gconf/apps/gnome-terminal/profiles/Default/%gconf.xml",
+      path => "$home/$username/.gconf/apps/gnome-terminal/profiles/Default/%gconf.xml",
       source       => 'puppet:///modules/awesome/gnome-terminal-gconf.xml',
-      require      => [ File[ $directories ], User[ $user ] ],
-      owner => $user,
-      group => $user,
-      mode  => 0600
+      require      => [ File[ $directories ], User[ $username ] ],
+      owner => $username,
+      group => $username,
+      mode  => '0600'
     }
-  }
-
-
-  define add_user_bin_dir {
-    $home_dir = hiera('users::home_dir', '/home')
-    $user = $name
 
     # Add alias script, like the spotify launcher
     file { "copy_scripts":
-      path         => "$home_dir/$user/bin",
+      path         => "$home/$username/bin",
       ensure       => directory,
       source       => 'puppet:///modules/awesome/bin',
       recurse      => true,
@@ -78,9 +86,6 @@ class awesome {
 
 
 
-
-  $users = hiera("users::local_users")
-  copy_config { $users: }
-  remove_menu_bar { $users: }
-  add_user_bin_dir { $users: }
+  $accounts = hiera("accounts::users")
+  create_resources( setup_awesome, $accounts)
 }
