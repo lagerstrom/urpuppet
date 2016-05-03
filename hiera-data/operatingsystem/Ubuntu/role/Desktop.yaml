@@ -1,6 +1,13 @@
 classes:
   - ubuntu::desktop
-  - awesome
+#  - awesome
+  - special_packages::charles
+  - special_packages::spotify
+  - special_packages::google_chrome
+  - special_packages::skype
+#  - special_packages::tor_browser
+#  - special_packages::hipchat
+  - special_packages::pycharm
 
 ubuntu::desktop::packages:
   - 'xscreensaver'
@@ -14,7 +21,9 @@ ubuntu::desktop::packages:
   - 'alsa-utils'
   - 'lightdm'
   - 'vlc'
-  - 'google-chrome-stable'
-  - 'spotify-client'
-  - 'tor-browser'
-  - 'skype'
+  - 'clusterssh'
+  - 'virtualbox'
+  - 'keepassx'
+  - 'pavucontrol'
+  - 'scrot'
+  - 'gpodder'

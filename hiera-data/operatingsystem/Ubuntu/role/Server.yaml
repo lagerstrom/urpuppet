@@ -1,2 +1,5 @@
 classes:
   - ubuntu::server
+
+ubuntu::server::packages:
+  - 'smartmontools'

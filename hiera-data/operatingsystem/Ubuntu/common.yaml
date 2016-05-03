@@ -1,8 +1,11 @@
 classes:
   - ubuntu
-  - ubuntu::users
   - docker
   - emacs
+  - ntp
+  - accounts
+  - zsh
+  - youtube_dl
 
 ubuntu::common_packages:
   - 'strace'
@@ -15,9 +18,35 @@ ubuntu::common_packages:
   - 'puppet-lint'
   - 'apcalc'
   - 'tig'
+  - 'whois'
+  - 'sysstat'
+  - 'graphicsmagick'
+  - 'php-elisp'
+  - 'zsh'
+  - 'unrar'
+  - 'lynx'
+  - 'golang'
+  - 'tree'
+  - 'apache2-utils'
+  - 'exfat-fuse'
+  - 'colordiff'
+  - 'sshfs'
+  - 'iotop'
 
-docker::docker_users:
-  - 'user'
+# User configuration
+accounts::users:
+  testuser:
+    comment: "This is a test user, which have been created by urpuppet"
+    groups: ["adm", "cdrom", "sudo", "dip", "plugdev", "docker"]
+    shell: "/bin/zsh"
 
-users::local_users:
-  - 'user'
+# NTP configuration
+ntp::package_ensure: latest
+ntp::service_enable: true
+ntp::service_ensure: running
+ntp::servers:
+  - time1.google.com
+  - time2.google.com
+  - time3.google.com
+  - time4.google.com
+ntp::driftfile: /var/lib/ntp/drift
