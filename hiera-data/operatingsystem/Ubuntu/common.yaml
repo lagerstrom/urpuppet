@@ -43,3 +43,10 @@ ntp::servers:
   - time3.google.com
   - time4.google.com
 ntp::driftfile: /var/lib/ntp/drift
+
+# User configuration
+accounts::users:
+  testuser:
+    comment: "This is a test user, feel free to remove"
+    groups: ["adm", "cdrom", "sudo", "dip", "plugdev", "docker"]
+    shell: "/bin/zsh"
