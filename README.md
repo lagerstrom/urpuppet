@@ -19,7 +19,7 @@ Usage:
 
     git clone git@github.com:lagerstrom/urpuppet.git
     cd urpuppet
-    ./urpuppet
+    sudo ./urpuppet
 
 Because this is the first time running Urpuppet it will ask you if this is a server or desktop installation. Just press D or S for Desktop or Server. Urpuppet will store your choise and use that in the future.
 
