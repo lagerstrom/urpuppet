@@ -1,4 +1,4 @@
-urpuppet
+Urpuppet
 =======
 
 Urpuppet is your puppet[1]. It's puppet in a masterless setup.
@@ -22,9 +22,9 @@ Usage:
 
 Urpuppet to infinity and beyond
 ------------
-After you have done the installation everything is setup and finished to start using. From here you can check back to this repository and pull down the latest changes and run Urpuppet again to apply the latest fixes. You can also start to modify the files to suite your needs even better. Below I will give you a quick start to add your own user to you system. 
+After you have done the installation everything is setup and finished to start using. From here you can check back to this repository and pull down the latest changes and run Urpuppet again to apply the latest fixes. You can also start to modify the files to suite your needs even better. Below I will give you a quick start to add your own user to you system.
 
-Because urpuppet works like a puppet apply all the flags you can supply to puppet apply works for urpuppet as well. 
+Because urpuppet works like a puppet apply all the flags you can supply to puppet apply works for urpuppet as well.
 
 For example:
 
@@ -46,12 +46,12 @@ To add the user chucky, we will need to add the following lines at the end of th
         groups: ["adm", "cdrom", "sudo", "dip", "plugdev", "docker"]
         shell: "/bin/zsh"
 
-As you can see chucky is part of a couple of groups. We are also assigning zsh to be the default shell for chucky. 
+As you can see chucky is part of a couple of groups. We are also assigning zsh to be the default shell for chucky.
 
 Directory structure
 -----
 
-* hiera-data = Where all hiera data is stored. 
+* hiera-data = Where all hiera data is stored.
 * manifests  = Where the manifests are stored. Will use the site.pp by default.
 * modules    = Where all modules are stored.
 
